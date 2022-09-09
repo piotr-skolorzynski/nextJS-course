@@ -18,8 +18,16 @@ const ClientsPage = () => {
       <ul>
         {clients.map((client) => {
           return (
+            // <li key={client.id}>
+            //   <Link href={`/clients/${client.id}`}>{client.name}</Link>
+            // </li>
+            //alternative solution for href in Link given by Next.js
             <li key={client.id}>
-              <Link href={`/clients/${client.id}`}>{client.name}</Link>
+              <Link
+                href={{ pathname: '/clients/[id]', query: { id: client.id } }}
+              >
+                {client.name}
+              </Link>
             </li>
           );
         })}
