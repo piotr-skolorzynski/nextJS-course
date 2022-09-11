@@ -1,11 +1,19 @@
-const HomePage = () => {
+export const getStaticProps = async () => {
+  return {
+    props: {
+      products: [{ id: 1, title: 'Product 1' }],
+    },
+  };
+};
+
+const HomePage = ({ products }) => {
   return (
     <ul>
-      <li>Product 1</li>
-      <li>Product 2</li>
-      <li>Product 3</li>
+      {products.map((product) => (
+        <li key={product.id}>{product.title}</li>
+      ))}
     </ul>
-  )
-}
+  );
+};
 
 export default HomePage;
