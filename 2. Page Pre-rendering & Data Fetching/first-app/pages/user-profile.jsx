@@ -4,7 +4,9 @@ const UserProfilePage = (props) => {
 
 export default UserProfilePage;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  const { params, req, res } = context;
+
   return {
     props: {
       username: 'Skolo',
