@@ -10,13 +10,26 @@ const FilteredEventsPage = ({
   filteredEvents,
   date: { year, month },
 }) => {
+  const pageHeadData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta name='description' content={`All events for ${month}/${year}.`} />
+    </Head>
+  );
+
   if (!filteredEvents) {
-    return <p className='center'>Loading ...</p>;
+    return (
+      <>
+        {pageHeadData}
+        <p className='center'>Loading ...</p>;
+      </>
+    );
   }
 
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
@@ -30,6 +43,7 @@ const FilteredEventsPage = ({
   if (hasError) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
         </ErrorAlert>
@@ -44,10 +58,7 @@ const FilteredEventsPage = ({
 
   return (
     <>
-      <Head>
-        <title>Filtered Events</title>
-        <meta name='description' content={`All events for ${month}/${year}.`} />
-      </Head>
+      {pageHeadData}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />;
     </>
