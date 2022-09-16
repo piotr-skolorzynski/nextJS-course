@@ -6,7 +6,7 @@ class MyDocument extends Document {
             <Html lang="en">
                 <Head />
                 <body>
-                    <div id="overlays"></div> //to add content which is from outside of our app
+                    <div id="overlays"></div> {/*to add content which is from outside of our app */ }
                     <Main />
                     <NextScript />
                 </body>
