@@ -2,9 +2,8 @@ import { getEventById } from '../../helpers/api-util';
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
-import ErrorAlert from '../../components/events/error-alert';
-import Button from '../../components/ui/button';
 import { getFeaturedEvents } from '../../dummy-data';
+import Head from 'next/head';
 
 const EventDetailPage = ({ event }) => {
   if (!event) {
@@ -17,6 +16,10 @@ const EventDetailPage = ({ event }) => {
 
   return (
     <>
+      <Head>
+        <title>{event.title}</title>
+        <meta name='description' content={event.description} />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
