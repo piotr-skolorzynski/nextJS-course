@@ -1,12 +1,13 @@
-import { getEventById } from '../../helpers/api-util';
+import Head from 'next/head';
+
+import { getEventById, getFeaturedEvents } from '../../helpers/api-util';
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
-import { getFeaturedEvents } from '../../dummy-data';
-import Head from 'next/head';
+import Comments from '../../components/input/comments';
 
-const EventDetailPage = ({ event }) => {
-  if (!event) {
+const EventDetailPage = ({ selectedEvent }) => {
+  if (!selectedEvent) {
     return (
       <div className='center'>
         <p>Loading...</p>
@@ -17,19 +18,20 @@ const EventDetailPage = ({ event }) => {
   return (
     <>
       <Head>
-        <title>{event.title}</title>
-        <meta name='description' content={event.description} />
+        <title>{selectedEvent.title}</title>
+        <meta name='description' content={selectedEvent.description} />
       </Head>
-      <EventSummary title={event.title} />
+      <EventSummary title={selectedEvent.title} />
       <EventLogistics
-        date={event.date}
-        address={event.location}
-        image={event.image}
-        imageAlt={event.title}
+        date={selectedEvent.date}
+        address={selectedEvent.location}
+        image={selectedEvent.image}
+        imageAlt={selectedEvent.title}
       />
       <EventContent>
-        <p>{event.description}</p>
+        <p>{selectedEvent.description}</p>
       </EventContent>
+      <Comments eventId={selectedEvent.id} />
     </>
   );
 };
@@ -41,7 +43,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      event,
+      selectedEvent: event,
     },
     revalidate: 30,
   };
@@ -54,7 +56,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths: paths,
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 

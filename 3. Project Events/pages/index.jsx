@@ -1,6 +1,8 @@
 import Head from 'next/head';
+
 import { getFeaturedEvents } from '../helpers/api-util';
 import EventList from '../components/events/event-list';
+import NewsletterRegistration from '../components/input/newsletter-registration';
 
 const HomePage = ({ events }) => {
   return (
@@ -12,12 +14,13 @@ const HomePage = ({ events }) => {
           content='Find a lot of great events that allow you to evolve...'
         />
       </Head>
+      <NewsletterRegistration />
       <EventList items={events} />
     </div>
   );
 };
 
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
   const featuredEvents = await getFeaturedEvents();
 
   return {
