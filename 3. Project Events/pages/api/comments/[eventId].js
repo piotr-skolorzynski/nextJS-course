@@ -1,4 +1,9 @@
-const handler = (req, res) => {
+import { MongoClient } from "mongodb";
+
+const handler = async (req, res) => {
+    const url = 'mongodb+srv://Skolo82:XHqWt3jYZq2GpzZm@nextjscourse.ib8lazu.mongodb.net/?retryWrites=true&w=majority';
+    const client = await MongoClient.connect(url);
+    const dbName = 'events';
 
     const eventId = req.query.eventId;
 
@@ -11,14 +16,17 @@ const handler = (req, res) => {
             return;
         }
 
-        console.log(email, name, text)
-
         const newComment = {
-            id: new Date().toISOString(),
             email,
             name,
-            text
+            text,
+            eventId
         };
+
+        const db = client.db(dbName);
+        const result = await db.collection('comments').insertOne(newComment);
+
+        newComment.id = result.insertedId;
 
         res.status(201).json({ message: 'Added comment.', comment: newComment });
     };
@@ -32,6 +40,7 @@ const handler = (req, res) => {
         res.status(200).json({ comments: dummyList });
     };
 
+    client.close();
 };
 
 export default handler;
