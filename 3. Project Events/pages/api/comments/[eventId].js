@@ -4,6 +4,7 @@ const handler = async (req, res) => {
     const url = 'mongodb+srv://Skolo82:XHqWt3jYZq2GpzZm@nextjscourse.ib8lazu.mongodb.net/?retryWrites=true&w=majority';
     const client = await MongoClient.connect(url);
     const dbName = 'events';
+    const db = client.db(dbName);
 
     const eventId = req.query.eventId;
 
@@ -23,7 +24,6 @@ const handler = async (req, res) => {
             eventId
         };
 
-        const db = client.db(dbName);
         const result = await db.collection('comments').insertOne(newComment);
 
         newComment.id = result.insertedId;
@@ -32,12 +32,9 @@ const handler = async (req, res) => {
     };
 
     if (req.method === 'GET') {
-        const dummyList = [
-            { id: 'c1', name: 'Skolo', text: 'A first comment' },
-            { id: 'c2', name: 'Magda', text: 'A second comment' }
-        ];
+        const documents = await db.collection('comments').find().sort({ _id: -1 }).toArray();
 
-        res.status(200).json({ comments: dummyList });
+        res.status(200).json({ comments: documents });
     };
 
     client.close();
